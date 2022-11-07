@@ -13,6 +13,11 @@ function Player({
   setIsPlaying,
   onClickNext,
   onClickPrev,
+  onClickLoop,
+  onClickRandom,
+  progressValue,
+  setProgressValue,
+  onSeekSong,
 }: {
   songs: SongModel[];
   currentSong: SongModel;
@@ -21,6 +26,11 @@ function Player({
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   onClickNext: () => void;
   onClickPrev: () => void;
+  onClickLoop: () => void;
+  onClickRandom: () => void;
+  progressValue: number;
+  setProgressValue: React.Dispatch<React.SetStateAction<number>>;
+  onSeekSong: (value: number) => void;
 }) {
   return (
     <StyledPlayer>
@@ -30,6 +40,11 @@ function Player({
         setIsPlaying={setIsPlaying}
         onClickNext={onClickNext}
         onClickPrev={onClickPrev}
+        onClickLoop={onClickLoop}
+        onClickRandom={onClickRandom}
+        progressValue={progressValue}
+        setProgressValue={setProgressValue}
+        onSeekSong={onSeekSong}
       />
       <PlayList handleClickSong={handleclickSong} songs={songs} />
     </StyledPlayer>

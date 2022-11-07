@@ -59,6 +59,8 @@ const PlayerContainer: React.FC = () => {
   const [songs, setSongs] = useState<SongModel[]>(initialValue);
   const [currentSong, setCurrentSong] = useState<SongModel>(initialValue[0]);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isRandom, setIsRandom] = useState<boolean>(false);
+  const [progressValue, setProgressValue] = useState<number>(0);
 
   const songRef = useRef<undefined | HTMLAudioElement>();
 
@@ -71,7 +73,7 @@ const PlayerContainer: React.FC = () => {
       return;
     }
     songRef.current?.play();
-  }, [currentSong]);
+  }, [currentSong, isPlaying]);
 
   // handle click play button
   useEffect(() => {
@@ -79,7 +81,39 @@ const PlayerContainer: React.FC = () => {
       songRef.current?.pause();
       return;
     }
+    songRef.current?.play();
   }, [isPlaying]);
+
+  // handle auto next song
+  useEffect(() => {
+    if (!songRef.current) return;
+    songRef.current.addEventListener("ended", () => {
+      if (!isRandom) {
+        handleClickNext();
+        return;
+      }
+      const nextSong = songs[Math.floor(Math.random() * songs.length)];
+      setCurrentSong(nextSong);
+    });
+    return () => {
+      songRef.current?.removeEventListener("ended", () => {
+        return;
+      });
+    };
+  });
+
+  // handle render progress bar value
+  useEffect(() => {
+    if (!songRef.current) return;
+    songRef.current.addEventListener("timeupdate", () => {
+      if (!songRef.current) return 0;
+      const timePercentage = Math.floor(
+        (songRef.current.currentTime / songRef.current.duration) * 100
+      );
+      if (!timePercentage) return;
+      setProgressValue(timePercentage);
+    });
+  });
 
   // handle click another song
   const handleclickSong = (id: number) => {
@@ -116,6 +150,29 @@ const PlayerContainer: React.FC = () => {
     setIsPlaying(true);
   };
 
+  // handle click loop button
+  const handleClickLoop = () => {
+    if (!songRef.current) return;
+    if (!songRef.current.loop) {
+      return (songRef.current.loop = true);
+    }
+    songRef.current.loop = false;
+  };
+
+  // handle click random song
+  const handleClickRandom = () => {
+    if (!songRef.current) return;
+    setIsRandom(!isRandom);
+  };
+
+  // handle seek song
+  const handleSeekSong = (value: number) => {
+    if (!songRef.current) return;
+    songRef.current.currentTime = Math.floor(
+      (value * songRef.current.duration) / 100
+    );
+  };
+
   return (
     <Player
       songs={songs}
@@ -125,6 +182,11 @@ const PlayerContainer: React.FC = () => {
       setIsPlaying={setIsPlaying}
       onClickNext={handleClickNext}
       onClickPrev={handleClickPrev}
+      onClickLoop={handleClickLoop}
+      onClickRandom={handleClickRandom}
+      progressValue={progressValue}
+      setProgressValue={setProgressValue}
+      onSeekSong={handleSeekSong}
     />
   );
 };

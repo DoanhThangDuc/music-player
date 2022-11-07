@@ -14,22 +14,35 @@ import {
   ControlBtn,
   BtnControlPlay,
 } from "./Control.styled";
-import { SongModel } from "../../container/PlayerContainer";
 
 const Control: React.FC<{
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   onClickNext: () => void;
   onClickPrev: () => void;
-  
-}> = ({ isPlaying, setIsPlaying, onClickNext, onClickPrev }) => {
+  onClickLoop: () => void;
+  onClickRandom: () => void;
+  progressValue: number;
+  setProgressValue: React.Dispatch<React.SetStateAction<number>>;
+  onSeekSong: (value: number) => void;
+}> = ({
+  isPlaying,
+  setIsPlaying,
+  onClickNext,
+  onClickPrev,
+  onClickLoop,
+  onClickRandom,
+  progressValue,
+  setProgressValue,
+  onSeekSong,
+}) => {
   return (
     <StyledControl>
       <ControlBtn>
-        <BtnRepeat>
+        <BtnRepeat onClick={() => onClickLoop()}>
           <RepeatIcon />
         </BtnRepeat>
-        <BtnPrev onClick={()=> onClickPrev()}>
+        <BtnPrev onClick={() => onClickPrev()}>
           <PrevIcon />
         </BtnPrev>
         <BtnControlPlay onClick={() => setIsPlaying(!isPlaying)}>
@@ -38,7 +51,7 @@ const Control: React.FC<{
         <BtnNext onClick={() => onClickNext()}>
           <NextIcon />
         </BtnNext>
-        <BtnRandom>
+        <BtnRandom onClick={() => onClickRandom()}>
           <RandomIcon />
         </BtnRandom>
       </ControlBtn>
@@ -46,10 +59,11 @@ const Control: React.FC<{
         <input
           id="progress"
           type="range"
-          // value="0"
+          value={progressValue}
           step="1"
           min="0"
           max="100"
+          onChange={(e) => onSeekSong(Number(e.target.value))}
         />
         <audio id="audio" src=""></audio>
       </ProgressContain>
