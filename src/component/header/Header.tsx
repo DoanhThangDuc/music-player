@@ -6,7 +6,10 @@ import {
   HeaderContainer,
 } from "./Header.styled";
 
-const Header: React.FC<{ currentSong: SongModel }> = ({ currentSong }) => {
+const Header: React.FC<{
+  currentSong: SongModel;
+  cdThumbRef: React.MutableRefObject<HTMLImageElement | null>;
+}> = ({ currentSong, cdThumbRef }) => {
   const images = currentSong.links.images;
   return (
     <HeaderContainer>
@@ -15,8 +18,8 @@ const Header: React.FC<{ currentSong: SongModel }> = ({ currentSong }) => {
         <h2>{currentSong.name}</h2>
       </StyledHeader>
       <StyledCD>
-        <StyledCDThumb>
-          <img src={images[0].url} alt="img" />
+        <StyledCDThumb >
+          <img src={images[0].url} alt="img" ref={cdThumbRef} />
         </StyledCDThumb>
       </StyledCD>
     </HeaderContainer>

@@ -18,6 +18,9 @@ function Player({
   progressValue,
   setProgressValue,
   onSeekSong,
+  cdThumbRef,
+  isLooping,
+  isRandom,
 }: {
   songs: SongModel[];
   currentSong: SongModel;
@@ -31,10 +34,13 @@ function Player({
   progressValue: number;
   setProgressValue: React.Dispatch<React.SetStateAction<number>>;
   onSeekSong: (value: number) => void;
+  cdThumbRef: React.MutableRefObject<HTMLImageElement | null>;
+  isLooping: boolean;
+  isRandom: boolean;
 }) {
   return (
     <StyledPlayer>
-      <Header currentSong={currentSong} />
+      <Header currentSong={currentSong} cdThumbRef={cdThumbRef} />
       <Control
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
@@ -45,6 +51,8 @@ function Player({
         progressValue={progressValue}
         setProgressValue={setProgressValue}
         onSeekSong={onSeekSong}
+        isLooping={isLooping}
+        isRandom={isRandom}
       />
       <PlayList handleClickSong={handleclickSong} songs={songs} />
     </StyledPlayer>

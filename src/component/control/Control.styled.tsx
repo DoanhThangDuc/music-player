@@ -35,9 +35,9 @@ export const ControlBtn = styled.div`
   display: inline-flex;
   justify-content: space-between;
 `;
-export const BtnRepeat = styled.div`
+export const BtnRepeat = styled.div<{ isLooping: boolean }>`
   cursor: pointer;
-  color: #666;
+  color: ${(props) => (props.isLooping ? "blue" : "#666")};
   padding: 18px;
   font-size: 18px;
 `;
@@ -80,9 +80,9 @@ export const BtnNext = styled.div`
 `;
 export const NextIcon = styled(FaStepForward)``;
 
-export const BtnRandom = styled.div`
+export const BtnRandom = styled.div<{ isRandom: boolean }>`
   cursor: pointer;
-  color: #666;
+  color: ${(props) => (props.isRandom ? "blue" : "#666")};
   padding: 18px;
   font-size: 18px;
 `;

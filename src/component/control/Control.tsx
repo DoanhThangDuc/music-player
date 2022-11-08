@@ -25,6 +25,8 @@ const Control: React.FC<{
   progressValue: number;
   setProgressValue: React.Dispatch<React.SetStateAction<number>>;
   onSeekSong: (value: number) => void;
+  isLooping: boolean;
+  isRandom: boolean;
 }> = ({
   isPlaying,
   setIsPlaying,
@@ -33,16 +35,17 @@ const Control: React.FC<{
   onClickLoop,
   onClickRandom,
   progressValue,
-  setProgressValue,
   onSeekSong,
+  isLooping,
+  isRandom,
 }) => {
   return (
     <StyledControl>
       <ControlBtn>
-        <BtnRepeat onClick={() => onClickLoop()}>
+        <BtnRepeat onClick={() => onClickLoop()} isLooping={isLooping}>
           <RepeatIcon />
         </BtnRepeat>
-        <BtnPrev onClick={() => onClickPrev()}>
+        <BtnPrev onClick={() => onClickPrev()} >
           <PrevIcon />
         </BtnPrev>
         <BtnControlPlay onClick={() => setIsPlaying(!isPlaying)}>
@@ -51,7 +54,7 @@ const Control: React.FC<{
         <BtnNext onClick={() => onClickNext()}>
           <NextIcon />
         </BtnNext>
-        <BtnRandom onClick={() => onClickRandom()}>
+        <BtnRandom onClick={() => onClickRandom()} isRandom={isRandom}>
           <RandomIcon />
         </BtnRandom>
       </ControlBtn>
