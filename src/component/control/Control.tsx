@@ -17,13 +17,13 @@ import {
 
 const Control: React.FC<{
   isPlaying: boolean;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsPlaying: (value: boolean) => void
   onClickNext: () => void;
   onClickPrev: () => void;
   onClickLoop: () => void;
   onClickRandom: () => void;
   progressValue: number;
-  setProgressValue: React.Dispatch<React.SetStateAction<number>>;
+  setProgressValue:(value: number) => void;
   onSeekSong: (value: number) => void;
   isLooping: boolean;
   isRandom: boolean;
